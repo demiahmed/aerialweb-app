@@ -1,5 +1,0 @@
-{
-    "jupyter.jupyterServerType": "local",
-    "liveServer.settings.port": 5501,
-    "python.formatting.provider": "black"
-}
