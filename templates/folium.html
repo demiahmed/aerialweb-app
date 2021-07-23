@@ -23,7 +23,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_79956aa61df64f4cba100016aaca0aee {
+                #map_1b6bafd30819473d9a1e737a5da08a74 {
                     position: absolute;
                     width: 40.0%;
                     height: 40.0%;
@@ -35,17 +35,17 @@
 </head>
 <body>    
     
-            <div class="folium-map" id="map_79956aa61df64f4cba100016aaca0aee" ></div>
+            <div class="folium-map" id="map_1b6bafd30819473d9a1e737a5da08a74" ></div>
         
 </body>
 <script>    
     
-            var map_79956aa61df64f4cba100016aaca0aee = L.map(
-                "map_79956aa61df64f4cba100016aaca0aee",
+            var map_1b6bafd30819473d9a1e737a5da08a74 = L.map(
+                "map_1b6bafd30819473d9a1e737a5da08a74",
                 {
-                    center: [29.950596, 32.574362],
+                    center: [0.0, 0.0],
                     crs: L.CRS.EPSG3857,
-                    zoom: 12,
+                    zoom: 1,
                     zoomControl: true,
                     preferCanvas: false,
                 }
@@ -55,27 +55,9 @@
 
         
     
-            var tile_layer_ef0ee962829e4791bcdac573019ae807 = L.tileLayer(
+            var tile_layer_e7da10dacd3245f68f28c9d13b522527 = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_79956aa61df64f4cba100016aaca0aee);
-        
-    
-        function geo_json_c2e0ca7b4d314a2aab9ba676d6d0d4eb_onEachFeature(feature, layer) {
-            layer.on({
-                click: function(e) {
-                    map_79956aa61df64f4cba100016aaca0aee.fitBounds(e.target.getBounds());
-                }
-            });
-        };
-        var geo_json_c2e0ca7b4d314a2aab9ba676d6d0d4eb = L.geoJson(null, {
-                onEachFeature: geo_json_c2e0ca7b4d314a2aab9ba676d6d0d4eb_onEachFeature,
-            
-        });
-        function geo_json_c2e0ca7b4d314a2aab9ba676d6d0d4eb_add (data) {
-            geo_json_c2e0ca7b4d314a2aab9ba676d6d0d4eb.addData(data)
-                .addTo(map_79956aa61df64f4cba100016aaca0aee);
-        }
-            geo_json_c2e0ca7b4d314a2aab9ba676d6d0d4eb_add({"bbox": [32.52261353185986, 29.905439682621253, 32.6262506624747, 29.995650370944702], "features": [{"bbox": [32.52261353185986, 29.905439682621253, 32.6262506624747, 29.995650370944702], "geometry": {"coordinates": [[[32.62615719939991, 29.905480323074162], [32.52261353185986, 29.905439682621253], [32.52261353185986, 29.995650370944702], [32.6262506624747, 29.99560958311394], [32.62615719939991, 29.905480323074162]]], "type": "Polygon"}, "id": "0", "properties": {}, "type": "Feature"}], "type": "FeatureCollection"});
+            ).addTo(map_1b6bafd30819473d9a1e737a5da08a74);
         
 </script>
