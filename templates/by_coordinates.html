@@ -1,0 +1,25 @@
+{% include 'base_temp.html' %}
+
+<form id = "find" action="#" method="post">
+
+<div class="twocols">
+    <p>Latitude</p>
+    <p><input name="latitude" id="latitude" type="number" min = "-90" max= "90" step="0.000001" name= 'latitude' /></p>
+    </div>
+    <div class="twocols">
+    <p>Longitude</p>
+    <p><input id="longitude" type="number" min = "-180" max= "180" step = "0.000001" name= 'longitude' /></p>
+    </div>
+
+{% include 'mandatory.html' %}
+
+<div id="rendercontents">
+    <div class="title">
+      Airport IATA Codes
+    </div>
+  </div>
+  
+  <!-- <script src="../static/js/ajax.js"></script>
+  <script src="../static/js/cart1.js"></script> -->
+  </body>
+  </html>

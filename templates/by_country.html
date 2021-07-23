@@ -1,0 +1,26 @@
+{% include 'base_temp.html' %}
+
+<form id = "find" action="#" method="post">
+
+<div class="twocols">
+    <p>By Country</p>
+    <select id="country-name" name="country">
+    <option disabled selected value> -- select a Country (Optional) -- </option>
+    {% for country in countries %}
+    <option value="{{country}}">{{country}}</option>
+    {% endfor %}
+    </select>
+</div>
+
+{% include 'mandatory.html' %}
+
+<div id="rendercontents">
+    <div class="title">
+      Airport IATA Codes
+    </div>
+  </div>
+  
+  <!-- <script src="../static/js/ajax.js"></script>
+  <script src="../static/js/cart1.js"></script> -->
+  </body>
+  </html>

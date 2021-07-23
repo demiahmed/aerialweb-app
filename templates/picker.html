@@ -1,0 +1,43 @@
+{% include 'base_temp.html' %}
+
+<form id = "find" action="#" method="post">
+
+<div class="twocols">
+    <p>By Airport</p>
+  <select name="airport">
+  <option disabled selected value> -- select an Airport (Optional) -- </option>
+  {% for airport in airports %}
+  <option value="{{airport}}">{{airport}}</option>
+  {% endfor %}
+  </select>
+</div>
+
+{% include 'mandatory.html' %}
+
+<div class="title">
+    Airport IATA Codes
+</div>
+<div class="box">
+{% for key,value in result.items() %}
+<div class="elements">
+<div class="text">
+<p class="value">{{ key }} - {{ value['airportName'] }}  &nbsp;&nbsp;  {{ value['numofProd'] }}</p>
+</div>
+<div class="thumbs">
+{% for i in range(0,value['listofTitle']|length) %} 
+<div class="cap">
+<!-- <img class="satthumb" src="static/images/{{ value['listofTitle'][i] ~ '.jpg'}}" onclick="myFunction(this)"> -->
+<div class="satthumb">
+  <img src="static/images/{{ value['listofTitle'][i] ~ '.jpg'}}">
+</div>
+<div class="overlay">&#10003;</div>
+<div class="date"> {{ value['dateofCapture'][i] }}</div>
+<div class="uuid" >{{ value['listofUUID'][i] }}</div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endfor %}
+</div>
+
+<div>{{ content }}</div>

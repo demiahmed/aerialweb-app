@@ -1,0 +1,236 @@
+* {
+  font-family: "Lato";
+}
+.title {
+  display: block;
+  font-size: 4rem;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+h1 {
+  width: fit-content;
+  margin: 4vh 0 2vh 4vw !important;
+}
+
+button:hover {
+  background-color: orangered;
+  border-color: orangered;
+  color: black;
+}
+
+.navbuttons {
+  display: flex;
+  margin-left: 4vw;
+}
+
+.navbuttons div {
+  padding: 1vh 1vw 10px 0;
+}
+
+button {
+  transition: 0.25s all;
+  text-align: center;
+}
+
+a > button {
+  width: fit-content;
+  background-color: white;
+  color: black;
+  height: 5vh;
+  border-radius: 20px;
+  border: 3px solid black;
+  outline: none;
+  font-family: "Lato";
+  font-size: 1.3em;
+  font-weight: bold;
+  box-shadow: 0pt 0pt 2pt black;
+}
+
+li > a {
+  color: black;
+  transition: 0.25s ease;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-decoration-color: black;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 55vw;
+}
+
+.value {
+  display: inline;
+  padding: 0.4rem;
+  margin: 0.4rem;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  font-family: "Roboto";
+}
+
+p {
+  display: inline;
+  /* font-family: "Lato"; */
+  font-size: 18px;
+}
+
+.elements {
+  margin: 1vw 0 0 2vw;
+  display: flex;
+  flex-direction: column;
+}
+
+div.cap {
+  cursor: pointer;
+}
+
+.text {
+  margin: 20px 0 20px 0;
+}
+
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.thumbs .date {
+  margin: 0.4vw;
+}
+
+.thumbs .uuid {
+  transform: translateY(-110px);
+  font-size: 12px;
+  margin: 0.4vw;
+  display: none;
+  overflow-wrap: break-word;
+  width: 80px;
+}
+
+.satthumb img {
+  margin: 0.4vw;
+  width: 80ox;
+  height: 80px;
+}
+.overlay {
+  display: none;
+  position: absolute;
+  margin: 0.4vw;
+  border-radius: -10px;
+  background-color: lightseagreen;
+  z-index: 2;
+  transform: translateY(calc(-80px - 0.8vw));
+  opacity: 0.9;
+  font-size: 21px;
+  color: white;
+  cursor: pointer;
+}
+
+.yes {
+  display: block;
+}
+
+.homesingle {
+  width: 45vw;
+  justify-content: space-between;
+  margin: 0 0 2vh 4vw;
+}
+
+.twocols {
+  display: flex;
+  width: 45vw;
+  justify-content: space-between;
+  margin: 0vh 0px 2vh 4vw;
+}
+
+.err {
+  flex-direction: column;
+}
+
+#warning, #error {
+  /* background: rgba(230, 179, 13, 0.863); */
+  width: fit-content;
+  padding: 8px;
+  font-weight: bold;
+}
+
+
+.findarea {
+  display: flex;
+  width: fit-content;
+  margin: 0vh 0px 2vh 4vw;
+
+}
+
+#gifloader {
+  width: 30px;
+  margin: 6px 0px 0px 20px;
+}
+
+form {
+  position: relative;
+  margin: 4vh 0 0 0;
+}
+
+form#downl {
+  margin: 1vh 0px 0.5vh 4vw;
+}
+
+.title,
+.box {
+  margin: 7vh 0px 0px 4vw;
+}
+
+.more {
+  margin: 0 auto;
+}
+
+.more > img {
+  width: 50px;
+  cursor: pointer;
+    filter: drop-shadow(2px 4px 4px rgba(80,80,80,0.6));
+}
+
+input[type="submit"] {
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  padding: 8px 8px 8px 8px;
+  border: 3px solid black;
+  cursor: pointer;
+  transition: 0.25s all;
+  outline: none;
+  font-weight: bold;
+  box-shadow: 0pt 0pt 2pt black;
+}
+
+input[type="submit"]:hover,
+button :hover {
+  background-color: orangered;
+  border-color: orangered;
+  color: black;
+}
+
+input[type="date"] {
+  font-size: 18px;
+}
+
+select {
+  width: 20vw;
+  text-align-last: end;
+  /* font-family: "Lato" !important; */
+}
+
+input,
+select {
+  /* font-family: 'Lato'; */
+  background-color: whitesmoke;
+  outline: none;
+  border: none;
+  text-align: end;
+}

@@ -1,0 +1,51 @@
+
+<div class="twocols addn">
+    <p>SizeX (m)</p>
+    <p><input type="number" step="1000" id= 'xbnd' name= 'xbnd' value="10000"></p>
+  </div>
+  <div class="twocols addn">
+    <p>SizeY (m)</p>
+    <p><input type="number" step="1000" id= 'ybnd' name= 'ybnd' value="10000"></p>
+</div>
+  <div class="twocols">
+    <p>From Date*</p>
+    <input type="date" id="from" name="fromDate">
+
+</div>
+  <div class="twocols">
+    <p>To Date*</p>
+    <input type="date" id="to" name="toDate">
+</div>
+
+<div class="twocols addn">
+  <p>CloudCover</p>
+  <p><input type="number" step="5" id="cloud" name= 'cloud' value="50"></p>
+</div>
+
+<div class="twocols">
+  <p class="more"><img  src="../static/styles/iconfinder_dots-horizontal_7122363.png" alt="" ></p>
+</div>
+
+<div class="twocols err">
+<p id="warning" class="p-3 mb-2 bg-warning text-dark"></p>
+<p id="error" class="p-3 mb-2 bg-danger text-white"></p>
+</div>
+
+  <div class="findarea">
+    <p><input type="submit" value = 'Find'></p>
+    <p><img id="gifloader" src="../static/styles/ajax-loader.gif" alt="" srcset=""></p>
+  </div>
+  <!-- <button id="btn-store">Download!</button> -->
+</form>
+
+<form action="{{ url_for('download')}}" method="GET" id="downl">
+<!-- <button id="dl" type="submit">Download!</button> -->
+<p>
+  <input id="dl" type="submit" value="Download!">
+</p>
+<!-- Display Selected UUID -->
+<!-- <div id="uuidUser"></div> -->
+  <!-- <p>UUIDs</p> -->
+  <p><input type="hidden" name="uniqueID" id="uuidUser5"></p>
+</form>
+

@@ -1,0 +1,36 @@
+{% include 'base_temp.html' %}
+<br><br>
+
+<div class="homesingle">
+
+    <p>
+        Hello! and welcome to my Aerial Image Explorer Tool!
+     <br>
+    <br>
+This interface is a leisure project of mine spinoff from an extensive research on using open access Satellite imagery and Computer Vision to extract urban and built-up features from cities and large scale infrastructure to aid in their urban planning. Read more about the research <a target="_blank" href="https://www.researchgate.net/publication/348619097_Machine_Learning_for_Comparative_Urban_Planning_at_Scale_An_Aviation_Case_Study">here</a>. Aerial Image Explorer v2 aims to package the Python based imagery retrieval workflow into a full-fledged app where anyone can browse, explore and collect high-res image from Sentinel. This app is developed in Flask and Jinja2 using a Pythonic Backend. Do note satellite image API requests often take 30+ seconds to return and are limited by HTTP request response times. Try with lesser number of images to get the best output as this project is still in development. <br><br>
+For simplicity, I've decided to have a few methods by which one can explore these beautiful pieces of data. </p><br><br>
+<ul>
+<li><p>
+    <a href="./by_airport">By Airport</a>: Get Image of an Airport by Name</p></li>
+
+    <li><p>
+        <a href="./by_country">By Country</a>: Get Images of all airports in a Country
+    </p></li>
+
+    <li><p>
+        <a href="./by_coordinates">By Coordinates</a>: Get Image of a custom Latitude, Longitude pair
+    </p></li>
+
+    <li><p>
+        <a href="./by_traffic">By Traffic</a>: Get Images Airports by order of their Passenger Traffic
+    </p></li>
+
+</ul>
+
+<br>
+<p>Get in touch:  <strong>Ahmed Meeran</strong> | <a target="_blank" href="https://demiahmed.github.io/portfolio/">Design Portfolio</a> | <a target="_blank" href="http://metadesignlab.com/demo/aerial/">Blog</a> | <a  href="mailto:demi.ahmed@gmail.com">Email</a> | <a target="_blank" href="https://www.instagram.com/demiinside/">Instagram</a></p>
+</div>
+
+
+</body>
+</html>
