@@ -120,11 +120,12 @@ $.post({
   success: function(data) {
     $("#error").empty()
     $("#error").hide()
-    $(".folium-map").load('../../templates/folium.html')
+
 
     renderResults(data)
     data = {}
-    window.location.reload()
+    // window.location.reload()
+    $(".folium-map").load('../../templates/folium.html')
   },
   error: function(err) {
     $("#gifloader").hide()
