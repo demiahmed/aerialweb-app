@@ -187,10 +187,11 @@ def drawBoundaries(latitude, longitude,width,height):
 
 
     Proj("epsg:4326")
-    m = folium.Map([latitude[0],longitude[0]], zoom_start=12,width = "40%", height = "40%" , top='10%',left="55%", position='absolute')
+    # m = folium.Map([latitude[0],longitude[0]], zoom_start=12,width = "40%", height = "40%" , top='10%',left="55%", position='absolute')
+    m = folium.Map([latitude[0],longitude[0]], zoom_start=11)
     for polygon in boundaries:
         folium.GeoJson(polygon).add_to(m)
-    m.save('./templates/folium.html')
+    m.save('./templates/folium_target.html')
 
     return boundaries,foot
 

@@ -177,6 +177,9 @@ def by_traffic():
     return render_template("by_traffic.html")
         
 
+@app.route('/map',methods=["GET"])
+def map():
+    return render_template("folium_target.html")
 
 
 
