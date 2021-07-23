@@ -1,5 +1,6 @@
-user = 'demi12395' 
-password = 'Sutd1234' 
+import os
+user = os.environ.get("S_API_USER") 
+password = os.environ.get("S_API_PASSWORD")
 
 def openDataFile1():
     import pandas as pd
