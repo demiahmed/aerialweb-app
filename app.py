@@ -45,32 +45,41 @@ def getDataFromForm(type):
 
     #return(pri0,pri1,x,y,s,e,c)
 
-def dumpJSON(cat,x, y, s, e, c, airName = 'null',countName = 'null',coord0 = 'null',coord1 = 'null',batsize = 'null',batnumb = 'null'):
+def dumpJSON(cat,x, y, s, e, c, apiResponse, airName = 'null',countName = 'null',coord0 = 'null',coord1 = 'null',batsize = 'null',batnumb = 'null'):
 
 
     params = {}
     params['category'] = cat
-
-
-    if cat == "by_airport":
-        params['airportName'] = airName
-    elif cat == "by_country":
-        params['country'] = countName
-    elif type == "by_coordinates" :
-        params['latitude'] = coord0
-        params['longitude'] = coord1
-    elif type == "by_traffic" :
-        params['sz'] = batsize
-        params['nm'] = batnumb
-
     params['xbnd'] = x
     params['ybnd'] = y
     params['fromDate'] = s
     params['toDate'] = e
     params['cloud'] = c
+    params['res'] = apiResponse
 
-    with open("data/" + sessionToken + ".json", 'w') as f:
-        json.dump(params, f)
+
+
+    if cat == "by_airport":
+        params['airportName'] = airName
+        with open(f"data/{airName}_{sessionToken}.json", 'w') as f:
+            json.dump(params, f)
+    elif cat == "by_country":
+        params['country'] = countName
+        with open(f"data/{countName}_{sessionToken}.json", 'w') as f:
+            json.dump(params, f)
+    elif cat == "by_coordinates" :
+        params['latitude'] = coord0
+        params['longitude'] = coord1
+        with open(f"data/{str(coord0)}c{str(coord1)}_{sessionToken}.json", 'w') as f:
+            json.dump(params, f)
+    elif cat == "by_traffic" :
+        params['sz'] = batsize
+        params['nm'] = batnumb
+        with open(f"data/{str(batnumb)}n{str(batsize)}_{sessionToken}.json", 'w') as f:
+            json.dump(params, f)
+
+
+
 
 
 
@@ -98,8 +107,9 @@ def by_airport():
 
 
         # data = render_template("picker.html", result =preprocess(1,airportsList.index(name)+1,start,end,xBound,yBound,cl),airports=airportsList,countries=countriesList)
-
-        return jsonify({"data": preprocess(1,airportsList.index(name)+1,start,end,xBound,yBound,cl)})
+        data = {"data": preprocess(1,airportsList.index(name)+1,start,end,xBound,yBound,cl)}
+        dumpJSON(type, xBound, yBound, start,end,cl,data["data"],airName=p)
+        return jsonify(data)
 
     
     return render_template("by_airport.html", airports = airportsList)
@@ -116,7 +126,7 @@ def by_country():
         country, xBound, yBound, start, end, cl = formData['country'],formData['xBound'], formData['yBound'], formData['start'], formData['end'],formData['cl']
 
         # Dumping JSON of request made
-        dumpJSON(type,xBound,yBound,start,end,cl,countName = country)
+  
 
 
 
@@ -124,7 +134,10 @@ def by_country():
         print("Country was selected")
         p = getCodesByCountry(country)
         print(p)
-        return jsonify({"data" :preprocess(1,1,start,end,xBound,yBound,cl)})
+        data = {"data" :preprocess(1,1,start,end,xBound,yBound,cl)}
+        dumpJSON(type,xBound,yBound,start,end,cl,data["data"], countName = country)
+        return jsonify(data)
+
 
     
     return render_template("by_country.html", countries = countriesList)
@@ -140,8 +153,7 @@ def by_coordinates():
         print(formData)
         lat, lon, xBound, yBound, start, end, cl = formData['lat'],formData['lon'],formData['xBound'], formData['yBound'], formData['start'], formData['end'],formData['cl']
 
-        # Dump JSON
-        dumpJSON(type,xBound,yBound,start,end,cl)
+
 
 
 
@@ -149,7 +161,12 @@ def by_coordinates():
         print("Latlong was selected")
         p = getParseCoordinates(lat,lon)
         print(p)
-        return jsonify({"data": preprocess(1,1,start,end,xBound,yBound,cl)})
+
+        # Dump JSON
+        data = {"data": preprocess(1,1,start,end,xBound,yBound)}
+        dumpJSON(type,xBound,yBound,start,end,cl,data["data"],cl, coord0 = lat, coord1 = lon)
+        return jsonify(data)
+
 
     
     return render_template("by_coordinates.html")
@@ -167,11 +184,13 @@ def by_traffic():
         print(formData)
         size, num, xBound, yBound, start, end, cl = formData['size'],formData['num'],formData['xBound'], formData['yBound'], formData['start'], formData['end'],formData['cl']
 
-        # Dump JSON
-        dumpJSON(type,xBound,yBound,start,end,cl)
-        p = getSizeNum()
 
-        return jsonify({"data":preprocess(size,num,start,end,xBound,yBound,cl)})
+        # p = getSizeNum()
+
+        data = {"data":preprocess(size,num,start,end,xBound,yBound,cl )}
+        # Dump JSON
+        dumpJSON(type,xBound,yBound,start,end,cl, data["data"], batsize = size, batnumb = num)
+        return jsonify(data)
 
     
     return render_template("by_traffic.html")

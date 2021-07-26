@@ -2,6 +2,13 @@ import os
 user = os.environ.get("S_API_USER") 
 password = os.environ.get("S_API_PASSWORD")
 
+flagCountry = {"state": False}
+flagAirport = {"state": False}
+flagName = {"state": False}
+flagCoordinates = {"state": False}
+
+
+
 def openDataFile1():
     import pandas as pd
 
@@ -35,8 +42,8 @@ def getCountryNamesasList():
 def getCodesByCountry(name):
 
     myData = openDataFile2()
-    global flagCountry
-    flagCountry = 1
+    # global flagCountry
+    flagCountry["state"] = True
     global countryName
     countryName = str(name)
     return list(myData.loc[myData['Country'] == str(name)]['IATA'])
@@ -44,8 +51,7 @@ def getCodesByCountry(name):
 def getCodesByAirport(name2):
 
     myData = openDataFile2()
-    global flagAirport
-    flagAirport = 1
+    flagAirport["state"] = True
     global airportName
     airportName = str(name2)
 
@@ -55,32 +61,31 @@ def getCodesByAirport(name2):
 def getParseCoordinates(n1,n2):
 
     myData = openDataFile2()
-    global flagCoordinates
-    flagCoordinates = 1
+    flagCoordinates["state"] = True
     global coordinates
     coordinates = [[float(n1)],[float(n2)]]
     return 'Parsed {} {}'.format(coordinates[0],coordinates[1]) 
 
-def getSizeNum():
+# def getSizeNum():
 
-    try:
-        if 'flagCountry' in globals():
-            global flagCountry
-            del flagCountry
-            print('Found flagCountry and deleted!')
+#     try:
+#         if 'flagCountry' in globals():
+#             global flagCountry
+#             del flagCountry
+#             print('Found flagCountry and deleted!')
             
-        elif 'flagName' in globals():
-            global flagName
-            del flagName
-            print('Found flagName and deleted!')
+#         elif 'flagName' in globals():
+#             global flagName
+#             del flagName
+#             print('Found flagName and deleted!')
 
-        elif 'flagCoordinates' in globals():
-            global flagCoordinates
-            del flagCoordinates
-            print('Found flagCoordinates and deleted!')
-    except Exception as e:
-        print(e)
-        pass
+#         elif 'flagCoordinates' in globals():
+#             global flagCoordinates
+#             del flagCoordinates
+#             print('Found flagCoordinates and deleted!')
+#     except Exception as e:
+#         print(e)
+#         pass
 
 def queryByCountry(name):
 
@@ -263,19 +268,24 @@ def preprocess(batch_size, batch_number,fromD,toD, ew_width=10000, ns_height=100
     for i in range(chunk_items):
         batch_ranges.append(iatabatch[i*batch_size : (i+1)*batch_size])
         
-    if 'flagCountry' in globals():
+    if flagCountry['state'] :
         print("flag value : {} ".format(flagCountry))
 
         print('Querying by Country... {}'.format(countryName))
         iatalist = getCodesByCountry(countryName)
         # flagCountry = 0
+        flagCountry['state'] = 0
+        flagCoordinates['state'] = 0
+        flagAirport['state'] = 0
 
-    elif 'flagName' in globals():
+    elif flagName['state']:
         print("flag value : {} ".format(flagName))
 
         print('Querying by Airport for... {}'.format(airportName))
         iatalist = getCodesByAirport(airportName)
-        # flagName = 0
+        flagCountry['state'] = 0
+        flagCoordinates['state'] = 0
+        flagAirport['state'] = 0
 
 
 
@@ -294,12 +304,15 @@ def preprocess(batch_size, batch_number,fromD,toD, ew_width=10000, ns_height=100
     #except ValueError as e:
     #    return e
     #else:
-    if 'flagCoordinates' in globals():
+    if flagCoordinates['state']:
         print("flag value : {} ".format(flagCoordinates))
 
         print('Querying Location By Coordinates for... {} {}'.format(coordinates[0],coordinates[1]))
         iatalist = ['C']
         loc_lat,loc_lon = coordinates
+        flagCountry['state'] = 0
+        flagCoordinates['state'] = 0
+        flagAirport['state'] = 0
         
 
     else:
@@ -384,7 +397,7 @@ def getImageURLs(prod_id):
 
     # connect to the api
     api_session = requests.Session()
-    api_session.auth = ("demi12395", "Sutd1234")
+    api_session.auth = (user, password)
     api_url = "https://scihub.copernicus.eu/apihub/odata/v1/"
 
     # product UUID you want to download a single band for
