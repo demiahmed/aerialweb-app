@@ -3,6 +3,18 @@ from test import *
 import time
 import folium
 import json
+import os
+from pymongo import MongoClient
+
+# get env variables
+keyString = os.environ.get("MONGO_KEY") 
+
+client = MongoClient(keyString)
+print('Connected to DB')
+db = client["aerialweb"]
+collection = db["search-cache"]
+
+
 sessionToken = time.strftime('%Y%m%d%H%M%S')
 airportsList = getAirportNamesasList()
 countriesList = getCountryNamesasList()
@@ -61,22 +73,26 @@ def dumpJSON(cat,x, y, s, e, c, apiResponse, airName = 'null',countName = 'null'
 
     if cat == "by_airport":
         params['airportName'] = airName
-        with open(f"data/{airName}_{sessionToken}.json", 'w') as f:
-            json.dump(params, f)
+        collection.insert_one(params)
+        # with open(f"data/{airName}_{sessionToken}.json", 'w') as f:
+        #     json.dump(params, f)
     elif cat == "by_country":
         params['country'] = countName
-        with open(f"data/{countName}_{sessionToken}.json", 'w') as f:
-            json.dump(params, f)
+        collection.insert_one(params)
+        # with open(f"data/{countName}_{sessionToken}.json", 'w') as f:
+        #     json.dump(params, f)
     elif cat == "by_coordinates" :
         params['latitude'] = coord0
         params['longitude'] = coord1
-        with open(f"data/{str(coord0)}c{str(coord1)}_{sessionToken}.json", 'w') as f:
-            json.dump(params, f)
+        collection.insert_one(params)
+        # with open(f"data/{str(coord0)}c{str(coord1)}_{sessionToken}.json", 'w') as f:
+        #     json.dump(params, f)
     elif cat == "by_traffic" :
         params['sz'] = batsize
         params['nm'] = batnumb
-        with open(f"data/{str(batnumb)}n{str(batsize)}_{sessionToken}.json", 'w') as f:
-            json.dump(params, f)
+        collection.insert_one(params)
+        # with open(f"data/{str(batnumb)}n{str(batsize)}_{sessionToken}.json", 'w') as f:
+        #     json.dump(params, f)
 
 
 
@@ -255,8 +271,7 @@ def main():
         params['toDate'] = end
         params['cloud'] = cl
 
-        with open("data/" + sessionToken + ".json", 'w') as f:
-            json.dump(params, f)
+
 
         if isinstance(name,str) :
             print("Name was selected")
