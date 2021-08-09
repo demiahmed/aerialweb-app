@@ -1,4 +1,5 @@
 import os
+from dbConnection import *
 user = os.environ.get("S_API_USER") 
 password = os.environ.get("S_API_PASSWORD")
 
@@ -160,17 +161,34 @@ def getAPI():
     return api
 
 def get_link_icon(titles,icons):
+    linkIconArr = []
     import requests
     import os
+    import base64
     for t,i in zip(titles,icons):
-        if(os.path.isfile("static/images/" + str(t) + ".jpg")):
-            print('saving time..')
+        dbCache = db.fs.files.find_one({"filename": f"{str(t)}.jpg"})
+        if(dbCache):
+        # if(os.path.isfile("static/images/" + str(t) + ".jpg")):
+            print('cache found in DB!')
+            id = dbCache["_id"]
+            # cacheImg = base64.encodebytes(fs.get(id).read()).decode('utf-8')
+            cacheImg = base64.b64encode(fs.get(id).read()).decode("utf-8").replace("\n","")
+            
+            # print(f"-----------------{cacheImg[:10]}------------------")
+            linkIconArr.append(cacheImg)  
             continue
         else:
             r = requests.get(i, auth=(user, password))
-            with open( "static/images/" + str(t) + ".jpg", "wb") as img:
-                img.write(r.content)
-            img.close()
+            # with open( "static/images/" + str(t) + ".jpg", "wb") as img:
+            #     img.write(r.content)
+            # img.close()
+            fs.put(r.content, filename=f"{str(t)}.jpg")
+            print("New image, creating cache")
+            encoded = base64.b64encode(r.content).decode("utf-8").replace("\n","")
+            linkIconArr.append(encoded)
+    # print(len(linkIconArr))
+    return linkIconArr
+
 
 def drawBoundaries(latitude, longitude,width,height):
     import geopandas as gpd
@@ -232,10 +250,9 @@ def preprocess(batch_size, batch_number,fromD,toD, ew_width=10000, ns_height=100
     #import gdal
     from datetime import datetime
     from io import StringIO
-    import shutil
     #from osgeo import gdal, gdal_array
     #from PIL import Image
-    import json
+    import copy
 
     df0 = openDataFile1()
     list1,list2,a,b = [],[],[],[]
@@ -377,15 +394,22 @@ def preprocess(batch_size, batch_number,fromD,toD, ew_width=10000, ns_height=100
         qVal[str(iatacode)]['linkIcon'] = list(products_list[iatalist.index(iatacode)]['link_icon'])
         qVal[str(iatacode)]['dateofCapture'] = [x.date().strftime("%d %b %Y") for x in list(products_list[iatalist.index(iatacode)]['ingestiondate'])]
         qVal[str(iatacode)]['airportName'] = str(getNameFromIATA(iatacode))
+        # qVal[str(iatacode)]['thumbs'] = get_link_icon(qVal[str(iatacode)]['listofTitle'],qVal[str(iatacode)]['linkIcon'])
+        # thumbs = []
+        # thumbs.append(get_link_icon(qVal[str(iatacode)]['listofTitle'],qVal[str(iatacode)]['linkIcon']))
 
-
+    qValWithThumbs = copy.deepcopy(qVal)
     
     for iatacode in iatalist:
-        get_link_icon(qVal[str(iatacode)]['listofTitle'],qVal[str(iatacode)]['linkIcon'])
+        # thumbs = []
+        # thumbs.append(get_link_icon(qVal[str(iatacode)]['listofTitle'],qVal[str(iatacode)]['linkIcon']))
+        qValWithThumbs[str(iatacode)]['thumbs'] = get_link_icon(qVal[str(iatacode)]['listofTitle'],qVal[str(iatacode)]['linkIcon'])
+
+
 
 
     #print(qVal)
-    return qVal
+    return [qVal,qValWithThumbs]
 
 def getImageURLs(prod_id):
     from six.moves.urllib.parse import urljoin

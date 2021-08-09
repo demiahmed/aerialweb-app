@@ -108,7 +108,7 @@ $("#gifloader").show()
 
   
 
-  console.log(data);
+  // console.log(data);
 
   //send AJAX
 $.post({
@@ -164,12 +164,6 @@ function renderResults(toParse) {
 
   // console.log("Received for Processing");
   let parsed = toParse.data
-  // console.log(parsed);
-  let imagePath = 'static/images/'
-  let extension = '.jpg'
-
-  // let keys = Object.keys(parsed)
-  // console.log(keys[0]);
 
 
 
@@ -213,7 +207,8 @@ function renderResults(toParse) {
   $("#" + key).append( 
     '<div class="cap">'+
       '<div class="satthumb">'+ 
-        '<img src=' + imagePath + values.listofTitle[i] + extension +'>' + 
+        // '<img src=' + imagePath + values.listofTitle[i] + extension +'>' + 
+        '<img src=data:image/jpg;base64,' + values.thumbs[i] + ">" +  
         '</div>' + 
         '<div class="overlay">&#10003;</div>' + 
         '<div class="date">' + values.dateofCapture[i] + '</div>' +

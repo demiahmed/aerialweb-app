@@ -1,24 +1,39 @@
-from flask import Flask, redirect, url_for, render_template, request, jsonify
+from flask import Flask, send_from_directory, render_template, request, jsonify
 from test import * 
 import time
 import folium
 import json
 import os
-from pymongo import MongoClient
+from dbConnection import *
+
 
 # get env variables
 keyString = os.environ.get("MONGO_KEY") 
 
-client = MongoClient(keyString)
-print('Connected to DB')
-db = client["aerialweb"]
-collection = db["search-cache"]
+# client = MongoClient(keyString)
+# print('Connected to DB')
+# db = client["aerialweb"]
+# collection = db["search-cache"]
+# fs = gridfs.GridFS(db)
 
 
 sessionToken = time.strftime('%Y%m%d%H%M%S')
 airportsList = getAirportNamesasList()
 countriesList = getCountryNamesasList()
 # print(sorted(countriesList))
+
+app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['JSON_AS_ASCII'] = False
+
+def bindDataToThumb(dataFull):
+    data = dataFull["data"]
+    thumbs = dataFull["thumb"]
+
+    for key in data:
+        data[key]["thumb"] = thumbs[list(data.keys()).index(key)]
+
+    return data
 
 def getDataFromForm(type):
 
@@ -100,8 +115,8 @@ def dumpJSON(cat,x, y, s, e, c, apiResponse, airName = 'null',countName = 'null'
 
 
 
-app = Flask(__name__)
-app.config['TEMPLATES_AUTO_RELOAD'] = True
+
+
 
 #Download by airport name Page
 @app.route('/by_airport',methods=["POST", "GET"])
@@ -123,8 +138,18 @@ def by_airport():
 
 
         # data = render_template("picker.html", result =preprocess(1,airportsList.index(name)+1,start,end,xBound,yBound,cl),airports=airportsList,countries=countriesList)
-        data = {"data": preprocess(1,airportsList.index(name)+1,start,end,xBound,yBound,cl)}
-        dumpJSON(type, xBound, yBound, start,end,cl,data["data"],airName=p)
+        result = preprocess(1,airportsList.index(name)+1,start,end,xBound,yBound,cl)
+        data = {
+            "data": result[1]
+            }
+        dataForDB = {
+            "data": result[0]
+            }
+
+        # bound = bindDataToThumb(data)
+        dumpJSON(type, xBound, yBound, start,end,cl,dataForDB["data"],airName=p)
+        # with open(f"data/test.json", 'w') as f:
+        #     json.dump(data, f)
         return jsonify(data)
 
     
@@ -150,8 +175,15 @@ def by_country():
         print("Country was selected")
         p = getCodesByCountry(country)
         print(p)
-        data = {"data" :preprocess(1,1,start,end,xBound,yBound,cl)}
-        dumpJSON(type,xBound,yBound,start,end,cl,data["data"], countName = country)
+
+        result = preprocess(1,1,start,end,xBound,yBound,cl)
+        data = {
+            "data": result[1]
+            }
+        dataForDB = {
+            "data": result[0]
+            }
+        dumpJSON(type,xBound,yBound,start,end,cl,dataForDB["data"], countName = country)
         return jsonify(data)
 
 
@@ -179,8 +211,15 @@ def by_coordinates():
         print(p)
 
         # Dump JSON
-        data = {"data": preprocess(1,1,start,end,xBound,yBound)}
-        dumpJSON(type,xBound,yBound,start,end,cl,data["data"],cl, coord0 = lat, coord1 = lon)
+        result = preprocess(1,1,start,end,xBound,yBound)
+        data = {
+            "data": result[1]
+            }
+        dataForDB = {
+            "data": result[0]
+            }
+
+        dumpJSON(type,xBound,yBound,start,end,cl,dataForDB["data"],cl, coord0 = lat, coord1 = lon)
         return jsonify(data)
 
 
@@ -203,9 +242,17 @@ def by_traffic():
 
         # p = getSizeNum()
 
-        data = {"data":preprocess(size,num,start,end,xBound,yBound,cl )}
+        result = preprocess(size,num,start,end,xBound,yBound,cl )
+
+        data = {
+            "data": result[1]
+            }
+        dataForDB = {
+            "data": result[0]
+            }
+
         # Dump JSON
-        dumpJSON(type,xBound,yBound,start,end,cl, data["data"], batsize = size, batnumb = num)
+        dumpJSON(type,xBound,yBound,start,end,cl, dataForDB["data"], batsize = size, batnumb = num)
         return jsonify(data)
 
     
@@ -326,7 +373,10 @@ def download():
     return render_template('download.html')
     # return render_template('download.html',result = preprocess(size,num,start,end,xBound,yBound,cl),content = downloadImages(uuid),airports=airportsList,countries = countriesList)
 
-
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 
 if __name__ == "__main__":
