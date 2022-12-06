@@ -28,4 +28,5 @@ Shapely==1.7.0
 tqdm==4.46.1
 urllib3==1.25.9
 markupsafe==2.0.1
+itsdangerous==2.0.1
 
